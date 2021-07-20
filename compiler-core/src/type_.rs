@@ -79,6 +79,15 @@ impl Type {
         matches!(self, Self::App { name, module, .. } if "Result" == name && module.is_empty())
     }
 
+    // only catches the Some constructor
+    pub fn is_option_constructor(&self) -> bool {
+        matches!(self, Self::Fn { retrn, .. } if retrn.is_option())
+    }
+
+    pub fn is_option(&self) -> bool {
+        matches!(self, Self::App { name, module, .. } if "Option" == name && module.is_empty())
+    }
+
     pub fn is_unbound(&self) -> bool {
         matches!(self, Self::Var { type_: typ } if typ.borrow().is_unbound())
     }

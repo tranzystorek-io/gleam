@@ -318,6 +318,9 @@ impl<'module_ctx, 'expression_gen, 'a> Generator<'module_ctx, 'expression_gen, '
                     _ if type_.is_result_constructor() => {
                         self.push_result_check(subject.clone(), record_name == "Ok")
                     }
+                    _ if type_.is_option_constructor() || record_name == "None" => {
+                        self.push_option_check(subject.clone(), record_name == "Some")
+                    }
                     Some(m) => self.push_variant_check(subject.clone(), docvec!["$", m, ".", name]),
                     None => self.push_variant_check(subject.clone(), name.to_doc()),
                 }
@@ -395,6 +398,14 @@ impl<'module_ctx, 'expression_gen, 'a> Generator<'module_ctx, 'expression_gen, '
         })
     }
 
+    fn push_option_check(&mut self, subject: Document<'a>, is_some: bool) {
+        self.checks.push(Check::Option {
+            is_some,
+            subject,
+            path: self.path_document(),
+        })
+    }
+
     fn push_list_length_check(
         &mut self,
         subject: Document<'a>,
@@ -446,6 +457,11 @@ pub enum Check<'a> {
         subject: Document<'a>,
         path: Document<'a>,
         is_ok: bool,
+    },
+    Option {
+        subject: Document<'a>,
+        path: Document<'a>,
+        is_some: bool,
     },
     Variant {
         subject: Document<'a>,
@@ -517,6 +533,18 @@ impl<'a> Check<'a> {
                     docvec![subject, path, ".isOk()"]
                 } else {
                     docvec!["!", subject, path, ".isOk()"]
+                }
+            }
+
+            Check::Option {
+                subject,
+                path,
+                is_some,
+            } => {
+                if match_desired == is_some {
+                    docvec![subject, path, ".isSome()"]
+                } else {
+                    docvec!["!", subject, path, ".isSome()"]
                 }
             }
 

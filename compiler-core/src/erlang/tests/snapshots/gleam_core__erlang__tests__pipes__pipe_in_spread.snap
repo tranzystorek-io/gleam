@@ -12,7 +12,7 @@ expression: "pub type X {\n  X(a: Int, b: Int)\n}\n\nfn id(x) {\n  x\n}\n       
 
 -type x() :: {x, integer(), integer()}.
 
--spec id(I) -> I.
+-spec id(L) -> L.
 id(X) ->
     X.
 

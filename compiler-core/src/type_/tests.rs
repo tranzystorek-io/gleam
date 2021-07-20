@@ -404,6 +404,10 @@ fn infer_module_type_retention_test() {
                 (
                     "Result".to_string(),
                     vec!["Ok".to_string(), "Error".to_string()]
+                ),
+                (
+                    "Option".to_string(),
+                    vec!["Some".to_string(), "None".to_string()]
                 )
             ]),
             values: HashMap::new(),

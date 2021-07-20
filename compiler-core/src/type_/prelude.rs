@@ -66,6 +66,15 @@ pub fn result(a: Arc<Type>, e: Arc<Type>) -> Arc<Type> {
     })
 }
 
+pub fn option(t: Arc<Type>) -> Arc<Type> {
+    Arc::new(Type::App {
+        public: true,
+        name: "Option".to_string(),
+        module: vec![],
+        args: vec![t],
+    })
+}
+
 pub fn tuple(elems: Vec<Arc<Type>>) -> Arc<Type> {
     Arc::new(Type::Tuple { elems })
 }
@@ -230,6 +239,23 @@ pub fn build_prelude(ids: &UniqueIdGenerator) -> Module {
         vec!["Ok".to_string(), "Error".to_string()],
     );
 
+    let option_value = generic_var(ids.next());
+    let _ = prelude.types.insert(
+        "Option".to_string(),
+        TypeConstructor {
+            origin: Default::default(),
+            parameters: vec![option_value.clone()],
+            typ: option(option_value),
+            module: vec![],
+            public: true,
+        },
+    );
+
+    let _ = prelude.types_constructors.insert(
+        "Option".to_string(),
+        vec!["Some".to_string(), "None".to_string()],
+    );
+
     let _ = prelude.values.insert(
         "Nil".to_string(),
         value(
@@ -299,6 +325,32 @@ pub fn build_prelude(ids: &UniqueIdGenerator) -> Module {
                 arity: 1,
             },
             fn_(vec![error.clone()], result(ok, error)),
+        ),
+    );
+
+    let some = generic_var(ids.next());
+    let _ = prelude.values.insert(
+        "Some".to_string(),
+        value(
+            ValueConstructorVariant::Record {
+                name: "Some".to_string(),
+                field_map: None,
+                arity: 1,
+            },
+            fn_(vec![some.clone()], option(some)),
+        ),
+    );
+
+    let some = generic_var(ids.next());
+    let _ = prelude.values.insert(
+        "None".to_string(),
+        value(
+            ValueConstructorVariant::Record {
+                name: "None".to_string(),
+                field_map: None,
+                arity: 0,
+            },
+            option(some),
         ),
     );
 

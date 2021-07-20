@@ -209,6 +209,38 @@ export class Error extends Result {
   }
 }
 
+export class Option extends CustomType {
+  static isOption(data) {
+    let variant = data?.__gleam_prelude_variant__;
+    return variant === "Some" || variant === "None";
+  }
+}
+
+export class Some extends Option {
+  constructor(value) {
+    super();
+    this[0] = value;
+  }
+
+  get __gleam_prelude_variant__() {
+    return "Some";
+  }
+
+  isSome() {
+    return true;
+  }
+}
+
+export class None extends Option {
+  get __gleam_prelude_variant__() {
+    return "None";
+  }
+
+  isSome() {
+    return false;
+  }
+}
+
 export function inspect(v) {
   let t = typeof v;
   if (v === true) return "True";

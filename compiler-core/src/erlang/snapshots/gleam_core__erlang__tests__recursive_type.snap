@@ -9,11 +9,11 @@ expression: "\nfn id(x) {\n  x\n}\n\npub fn main() {\n  id(id)\n}\n"
 
 -export([main/0]).
 
--spec id(I) -> I.
+-spec id(L) -> L.
 id(X) ->
     X.
 
--spec main() -> fun((M) -> M).
+-spec main() -> fun((P) -> P).
 main() ->
     id(fun id/1).
 

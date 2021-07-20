@@ -9,7 +9,7 @@ expression: "pub fn x(f) {\n  try x = 1 |> f\n  Ok(x)\n}"
 
 -export([x/1]).
 
--spec x(fun((integer()) -> {ok, L} | {error, O})) -> {ok, L} | {error, O}.
+-spec x(fun((integer()) -> {ok, O} | {error, R})) -> {ok, O} | {error, R}.
 x(F) ->
     case begin
         _pipe = 1,

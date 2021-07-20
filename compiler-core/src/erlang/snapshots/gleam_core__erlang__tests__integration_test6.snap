@@ -12,7 +12,7 @@ expression: "\npub fn factory(f, i) {\n  f(i)\n}\n\npub type Box {\n  Box(i: Int
 
 -type box() :: {box, integer()}.
 
--spec factory(fun((J) -> N), J) -> N.
+-spec factory(fun((M) -> Q), M) -> Q.
 factory(F, I) ->
     F(I).
 

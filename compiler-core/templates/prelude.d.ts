@@ -55,6 +55,24 @@ export interface ErrorStatic extends ResultStatic {
   new <T, E>(value: E): Result<T, E>;
 }
 
+export interface Option<T> {
+  get __gleam_prelude_variant__(): "Some" | "None";
+  isSome(): boolean;
+  inspect(): string;
+}
+
+export interface OptionStatic {
+  isOption(value: unknown): boolean;
+}
+
+export interface SomeStatic {
+  new <T>(value: T): Option<T>;
+}
+
+export interface NoneStatic {
+  new <T>(): Option<T>;
+}
+
 export function inspect(value: any): string;
 
 export function isEqual(a: any, b: any): boolean;

@@ -9,7 +9,7 @@ expression: "pub fn tail(list) { case list { [x, ..] -> x } }"
 
 -export([tail/1]).
 
--spec tail(list(L)) -> L.
+-spec tail(list(O)) -> O.
 tail(List) ->
     case List of
         [X | _@1] ->

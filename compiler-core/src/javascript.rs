@@ -57,6 +57,14 @@ impl<'a> Generator<'a> {
             self.register_prelude_usage(&mut imports, "Error");
         };
 
+        if self.tracker.some_used {
+            self.register_prelude_usage(&mut imports, "Some");
+        };
+
+        if self.tracker.none_used {
+            self.register_prelude_usage(&mut imports, "None");
+        };
+
         if self.tracker.list_used {
             self.register_prelude_usage(&mut imports, "toList");
         };
@@ -614,6 +622,8 @@ pub(crate) struct UsageTracker {
     pub list_used: bool,
     pub error_used: bool,
     pub throw_error_used: bool,
+    pub some_used: bool,
+    pub none_used: bool,
     pub custom_type_used: bool,
     pub int_division_used: bool,
     pub float_division_used: bool,

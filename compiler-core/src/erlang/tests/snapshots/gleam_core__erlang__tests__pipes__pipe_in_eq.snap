@@ -9,7 +9,7 @@ expression: "fn id(x) {\n  x\n}\n        \npub fn main() {\n    1 == 1 |> id\n}"
 
 -export([main/0]).
 
--spec id(I) -> I.
+-spec id(L) -> L.
 id(X) ->
     X.
 

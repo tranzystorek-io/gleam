@@ -298,11 +298,19 @@ impl<'module> Generator<'module> {
         name: &'a str,
         arity: usize,
     ) -> Document<'a> {
-        if qualifier.is_none() && type_.is_result_constructor() {
-            if name == "Ok" {
-                self.tracker.ok_used = true;
-            } else if name == "Error" {
-                self.tracker.error_used = true;
+        if qualifier.is_none() {
+            if type_.is_result_constructor() {
+                match name {
+                    "Ok" => self.tracker.ok_used = true,
+                    "Error" => self.tracker.error_used = true,
+                    _ => (),
+                }
+            } else if type_.is_option_constructor() || name == "None" {
+                match name {
+                    "Some" => self.tracker.some_used = true,
+                    "None" => self.tracker.none_used = true,
+                    _ => (),
+                }
             }
         }
         if type_.is_bool() && name == "True" {
@@ -667,10 +675,16 @@ impl<'module> Generator<'module> {
                 ..
             } => {
                 if type_.is_result_constructor() {
-                    if name == "Ok" {
-                        self.tracker.ok_used = true;
-                    } else if name == "Error" {
-                        self.tracker.error_used = true;
+                    match name.as_str() {
+                        "Ok" => self.tracker.ok_used = true,
+                        "Error" => self.tracker.error_used = true,
+                        _ => (),
+                    }
+                } else if type_.is_option_constructor() || name == "None" {
+                    match name.as_str() {
+                        "Some" => self.tracker.some_used = true,
+                        "None" => self.tracker.none_used = true,
+                        _ => (),
                     }
                 }
                 Ok(self.wrap_return(construct_record(None, name, arguments)))

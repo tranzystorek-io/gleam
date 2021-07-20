@@ -1098,7 +1098,7 @@ make() ->
 
 -type empty() :: empty.
 
--spec id(I) -> I.
+-spec id(L) -> L.
 id(X) ->
     X.
 "
@@ -1160,7 +1160,7 @@ make() ->
 
 -type empty() :: empty.
 
--spec id(I) -> I.
+-spec id(L) -> L.
 id(X) ->
     X.
 "
@@ -1335,7 +1335,7 @@ funky() ->
 
 -export(['receive'/1]).
 
--spec \'receive\'(I) -> I.
+-spec \'receive\'(L) -> L.
 'receive'(X) ->
     X.
 "
@@ -1575,7 +1575,7 @@ get_name(Person) ->
                 text: "-module(one).
 -compile(no_auto_import).
 
--export_type([t/1]).\n\n-type t(I) :: {c, integer(), integer()} | {gleam_phantom, I}.
+-export_type([t/1]).\n\n-type t(L) :: {c, integer(), integer()} | {gleam_phantom, L}.
 
 
 "
@@ -1643,7 +1643,7 @@ main() ->
 
 -type t() :: {x, integer()}.
 
--spec id(I) -> I.
+-spec id(L) -> L.
 id(X) ->
     X.
 "
@@ -1758,7 +1758,7 @@ make_list() ->
 
 -export_type([t/1]).
 
--type t(I) :: {c, integer(), integer()} | {gleam_phantom, I}.
+-type t(L) :: {c, integer(), integer()} | {gleam_phantom, L}.
 
 
 "
@@ -1916,7 +1916,7 @@ fn bug_752() {
 
 -export_type([one/1]).
 
--type one(I) :: {one, I}.
+-type one(L) :: {one, L}.
 
 
 "
@@ -1929,7 +1929,7 @@ fn bug_752() {
 
 -export_type([two/1]).
 
--type two(K) :: {two, one:one(integer())} | {gleam_phantom, K}.
+-type two(N) :: {two, one:one(integer())} | {gleam_phantom, N}.
 
 
 "

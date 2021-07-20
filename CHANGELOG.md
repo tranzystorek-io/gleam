@@ -54,6 +54,7 @@
 - Fixed a bug where type errors from pipes could show incorrect information.
 - Fixed a bug where types could not be imported if they had the same name as a
   value in the prelude.
+- `Option` is now a built-in type, available in the prelude.
 
 ## v0.19.0 - 2022-01-12
 

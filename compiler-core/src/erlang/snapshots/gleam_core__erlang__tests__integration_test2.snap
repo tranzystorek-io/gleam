@@ -19,7 +19,7 @@ second(List) ->
             1
     end.
 
--spec tail(list(P)) -> list(P).
+-spec tail(list(S)) -> list(S).
 tail(List) ->
     case List of
         [X | Xs] ->

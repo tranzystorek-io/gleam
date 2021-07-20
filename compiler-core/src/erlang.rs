@@ -1860,6 +1860,14 @@ impl<'a> TypePrinter<'a> {
                 let error = tuple(["error".to_doc(), arg_err]);
                 docvec![ok, break_(" |", " | "), error].nest(INDENT).group()
             }
+            "Option" => {
+                let arg_some = self.print(args.get(0).expect("print_prelude_type option some"));
+                let some = tuple(["some".to_doc(), arg_some]);
+                let none = "none".to_doc();
+                docvec![some, break_(" |", " | "), none]
+                    .nest(INDENT)
+                    .group()
+            }
             // Getting here sholud mean we either forgot a built-in type or there is a
             // compiler error
             name => panic!("{} is not a built-in type.", name),

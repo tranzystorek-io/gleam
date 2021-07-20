@@ -4,8 +4,10 @@ import {
   Empty,
   Error,
   List,
+  None,
   NonEmpty,
   Ok,
+  Some,
   UtfCodepoint,
   codepointBits,
   divideFloat,
@@ -96,6 +98,14 @@ assertEqual(new Error(2), new Error(2));
 assertEqual(new Error(new Error(2)), new Error(new Error(2)));
 assertNotEqual(new Error(2), new Error(3));
 assertNotEqual(new Error(new Error(2)), new Error(new Error(3)));
+
+assertEqual(new Some(1), new Some(1));
+assertEqual(new Some(2), new Some(2));
+assertEqual(new Some(new Some(2)), new Some(new Some(2)));
+assertNotEqual(new Some(1), new Some(2));
+assertNotEqual(new Some(new Some(2)), new Some(new Some(3)));
+
+assertEqual(new None(), new None());
 
 assertEqual(
   new ExampleRecordImpl(undefined, 1, new Ok(2.1)),
@@ -346,6 +356,13 @@ assertEqual(inspect(new Error(true)), "Error(True)");
 assertEqual(inspect(new Error(false)), "Error(False)");
 assertEqual(inspect(new Error(undefined)), "Error(Nil)");
 
+assertEqual(inspect(new Some(1)), "Some(1)");
+assertEqual(inspect(new Some(true)), "Some(True)");
+assertEqual(inspect(new Some(false)), "Some(False)");
+assertEqual(inspect(new Some(undefined)), "Some(Nil)");
+
+assertEqual(inspect(new None()), "None");
+
 assertEqual(
   inspect(new ExampleRecordImpl(undefined, 1, 2.1)),
   "ExampleRecordImpl(Nil, detail: 1, boop: 2.1)"
@@ -443,6 +460,11 @@ assertEqual(
 
 assertEqual(new Ok(1).isOk(), true);
 assertEqual(new Error(1).isOk(), false);
+
+// Option.isSome
+
+assertEqual(new Some(1).isSome(), true);
+assertEqual(new None().isSome(), false);
 
 // List.atLeastLength
 
