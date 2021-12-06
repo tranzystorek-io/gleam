@@ -11,6 +11,7 @@
   and not only its first line.
 - Fixed a bug where sometimes type variable could be reused result in incorrect
   non-deterministic type errors.
+- `gleam` learned a new subcommand `completion` that generates shell completion scripts.
 
 ## v0.19.0 - 2022-01-12
 
