@@ -88,9 +88,11 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use clap::{AppSettings, Args, Parser, Subcommand};
+use clap::{AppSettings, Args, IntoApp, Parser, Subcommand};
+use clap_complete::Shell;
 use strum::VariantNames;
 
+const NAME: &str = env!("CARGO_BIN_NAME");
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[derive(Parser, Debug)]
@@ -185,6 +187,13 @@ enum Command {
 
     /// Clean build artifacts
     Clean,
+
+    /// Generate shell completion script
+    Completion {
+        /// Shell to generate completion for
+        #[clap(value_name = "SHELL", arg_enum)]
+        shell: Shell,
+    },
 }
 
 #[derive(Args, Debug, Clone)]
@@ -279,6 +288,17 @@ enum Docs {
     },
 }
 
+fn generate_completion(shell: Shell) -> Result<()> {
+    clap_complete::generate(
+        shell,
+        &mut Command::into_app(),
+        NAME,
+        &mut std::io::stdout(),
+    );
+
+    Ok(())
+}
+
 fn main() {
     initialise_logger();
     panic::add_handler();
@@ -336,6 +356,8 @@ fn main() {
         Command::Add { package, dev } => add::command(package, dev),
 
         Command::Clean => clean(),
+
+        Command::Completion { shell } => generate_completion(shell),
     };
 
     match result {

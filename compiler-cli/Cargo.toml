@@ -12,6 +12,7 @@ gleam-core = { path = "../compiler-core" }
 ctrlc = { version = "3.2.1", features = ["termination"] }
 # Command line interface
 clap = { version = "3.0", features = ["derive"] }
+clap_complete = "3.0"
 # # Immutable data structures
 # im = "15.0.0"
 # Extra iter methods
